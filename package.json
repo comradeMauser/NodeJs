@@ -8,5 +8,11 @@
     "start": "node index.js"
   },
   "author": "comrade Mauser",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "mocha": "^8.1.3"
+  }
 }
