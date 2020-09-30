@@ -1,16 +1,4 @@
-//first
-const calc = require("./calc")
-const numbersToAdd = [
-    3,4,10,2
-]
-const result = calc.sum(numbersToAdd)
-console.log(`result is ${result}`)
-
-//second
-const _ = require('lodash')
-console.log(_.assign({ 'a': 1 }, { 'b': 2 }, { 'c': 3 }));
-
-//third
+//fourth with Promise
 const fs = require('fs')
 console.log("open your mind, Quade!")
 
@@ -22,3 +10,21 @@ fs.readFile('file.md', 'utf-8', function (err, content) {
     console.log(content)
 })
 console.log("end of all")
+
+function stats(file) {
+    return new Promise((resolve, reject) => {
+        fs.stat(file,  (err, data) => {
+            if (err) {
+                return reject(err)
+            }
+            resolve(data)
+        })
+    })
+}
+
+Promise.all([
+    stats('file1.txt'),
+    stats('file2.txt'),
+    stats('file3.txt', "utf-8"),
+]).then(data => console.log(data))
+    .catch(err => console.log(err))
