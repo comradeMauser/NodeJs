@@ -1,15 +1,5 @@
 //fourth with Promise
 const fs = require('fs')
-console.log("open your mind, Quade!")
-
-fs.readFile('file.md', 'utf-8', function (err, content) {
-    if (err) {
-        console.log("something wrong")
-        return console.log(err)
-    }
-    console.log(content)
-})
-console.log("end of all")
 
 function stats(file) {
     return new Promise((resolve, reject) => {

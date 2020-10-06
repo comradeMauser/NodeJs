@@ -1,16 +1,14 @@
-const http = require("http")
-const port = 3002
+const express = require("express")
+const app = express()
+const port = 3001
 
-const requestrHandler = (request, response) => {
-    console.log(request.url)
-    response.end("It's ALIVE!!!")
-}
+app.get('/', (request, response) => {
+    response.send("It's slill alive")
+})
 
-const server = http.createServer(requestrHandler)
-
-server.listen(port, (error => {
+app.listen(port, (error => {
     if (error) {
         return console.log("something wrong", error)
     }
-    console.log("server listening on port", port)
+    console.log("we hear you on port", port)
 }))
