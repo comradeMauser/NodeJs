@@ -1,5 +1,4 @@
-// part 3 practice
-// node "practice basic"
+// part 3 practice basic
 
 const http = require("http")
 
