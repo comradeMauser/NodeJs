@@ -1,17 +1,20 @@
-const http = require('http');
 const express = require('express')
 
 const app = express()
 
-app.use((req, res, next) => {
-    console.log("middleware")
+app.use('/', (req, res, next) => {
+    console.log("it's always runs")
     next()
 })
 
-app.use((req, res, next) => {
-    console.log("one more middleware")
+app.use('/add-product', (req, res, next) => {
+    console.log("/add-product")
+    res.send("<h1>Add product page</h1>")
 })
 
-const server = http.createServer(app)
+app.use('/', (req, res, next) => {
+    console.log("one more middleware")
+    res.send("<h1>Home Page, Express</h1>")
+})
 
-server.listen(3000)
+app.listen(3000)
