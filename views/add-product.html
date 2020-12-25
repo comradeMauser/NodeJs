@@ -52,21 +52,41 @@
         .main-header__item a.active {
             color: darkgoldenrod;
         }
+
+        .product-form {
+            width: 20rem;
+            max-width: 90%;
+            margin: auto;
+        }
+
+        .form-control {
+            margin: 0.5rem 0;
+            width: 100%;
+        }
+
         .form-control label,
-        .form-control input{
+        .form-control input {
             display: block;
         }
-        .form-control input{
+
+        .form-control input {
             border: 1px solid darkgoldenrod;
             font: inherit;
             border-radius: 2px;
-            margin: 0.5rem 0;
         }
-        button{
+
+        button {
             border: 1px solid darkgoldenrod;
             border-radius: 2px;
             font: inherit;
             background: whitesmoke;
+            cursor: pointer;
+        }
+
+        button:hover,
+        button.active {
+            background-color: darkgoldenrod;
+            color: white;
         }
     </style>
 </head>
