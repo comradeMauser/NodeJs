@@ -4,6 +4,7 @@ html(lang="en")
         meta(charset="UTF-8")
         title #{docTitle}
         link(rel="stylesheet", href="/css/main.css")
+
     body
         header.main-header
             nav.main-header__nav
@@ -12,6 +13,7 @@ html(lang="en")
                         a.active(href='/') Shop(*pug)
                     li.main-header__item
                         a(href="/admin/add-product") Add Product(*pug)
+
         main
             if prods.length > 0
                 .grid

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        title #{errTitle}
+        link( rel="stylesheet" href="/css/404.css")
+        block styles404
+
+    body
+        header.main-header
+            nav.main-header__nav
+                ul.main-header__item-list
+                    li.main-header__item
+                        a(href="/") Shop
+                    li.main-header__item
+                        a(href="/admin/add-product") Add Product
+        main
+            h2 4O4
+            img(src="https://media.makeameme.org/created/technical-malfunction.jpg" alt="malfunction")
+            div something wrong...
+        block content
