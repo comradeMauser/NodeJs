@@ -2,20 +2,24 @@
 html(lang="en")
     head
         meta(charset="UTF-8")
-        title #{errTitle}
-        link( rel="stylesheet" href="/css/404.css")
-        block styles404
+        title #{pageTitle}
+        link(rel="stylesheet", href="/css/404.css")
+        link(rel="stylesheet", href="/css/product.css")
+        link(rel="stylesheet", href="/css/main.css")
+        block styles
 
     body
         header.main-header
             nav.main-header__nav
                 ul.main-header__item-list
                     li.main-header__item
-                        a(href="/") Shop
+                        a(href="/", class=(path === "/shop" ? "active" : "")) Shop
                     li.main-header__item
-                        a(href="/admin/add-product") Add Product
-        main
-            h2 4O4
-            img(src="https://media.makeameme.org/created/technical-malfunction.jpg" alt="malfunction")
-            div something wrong...
+                        a(href="/admin/add-product", class=(path === "/admin/add-product" ? "active" : "")) Add Product
         block content
+
+            main
+                h2 4O4
+                img(src="https://media.makeameme.org/created/technical-malfunction.jpg" alt="malfunction")
+                div something wrong...
+                block error

@@ -20,7 +20,7 @@ app.use(shopRoutes)
 app.use((req, res, next) => {
     // console.log("4O4")
     // res.status(404).sendFile(path.join(__dirname, "views", "404.html"))
-    res.status(404).render("404", {errTitle: "404, no way"})
+    res.status(404).render("404", {pageTitle: "404, no way"})
 })
 
 app.listen(3000)

@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        title #{docTitle}
-        link(rel="stylesheet", href="/css/main.css")
+extends layouts/main-layout.pug
 
-    body
-        header.main-header
-            nav.main-header__nav
-                ul.main-header__item-list
-                    li.main-header__item
-                        a.active(href='/') Shop(*pug)
-                    li.main-header__item
-                        a(href="/admin/add-product") Add Product(*pug)
-
-        main
+block styles
+block content
             if prods.length > 0
                 .grid
                     each product in prods
