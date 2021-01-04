@@ -1,24 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title><%= pageTitle %>></title>
-    <link rel="stylesheet" href="/css/404.css">
-</head>
+<!--styles -->
+<%- include('includes/head.ejs') %>
+
 <body>
-<header class="main-header">
-    <nav class="main-header__nav">
-        <ul class="main-header__item-list">
-            <li class="main-header__item"><a href="/">Shop</a></li>
-            <li class="main-header__item"><a href="/admin/add-product">Add Product</a></li>
-        </ul>
-    </nav>
-</header>
+<!--navigation panel-->
+<%- include('includes/navigation.ejs') %>
 
 <main>
     <h2>4O4</h2>
     <img src="https://media.makeameme.org/created/technical-malfunction.jpg" alt="malfunction">
     <div>something wrong...</div>
-</main>
-</body>
-</html>
+
+<%- include('includes/end.ejs') %>
