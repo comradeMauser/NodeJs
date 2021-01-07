@@ -55,16 +55,20 @@ main {
 }
 
 .form-control {
+    display: block;
+    text-align: right;
     margin: 0.5rem 0;
     width: 100%;
 }
 
 .form-control label,
-.form-control input {
-    display: block;
+.form-control input,
+.form-control textarea {
+    width: 100%;
 }
 
-.form-control input {
+.form-control input,
+.form-control textarea {
     border: 1px solid darkgoldenrod;
     font: inherit;
     border-radius: 2px;
