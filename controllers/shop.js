@@ -1,5 +1,6 @@
 const Product = require('../models/product.js')
 
+// for all products
 exports.getProducts = (req, res, next) => {
     Product.fetchAll(products => {
         res.render("shop/product-list",
@@ -7,6 +8,19 @@ exports.getProducts = (req, res, next) => {
                 prods: products,
                 pageTitle: "All products",
                 path: '/products',
+            })
+    })
+}
+
+//for single product
+exports.getProduct = (req, res, next) => {
+    const productId = req.params.productId
+    Product.findById(productId, product => {
+        res.render('shop/product-details',
+            {
+                product: product,
+                pageTitle: product.title,
+                path: '/products/:productId'
             })
     })
 }
@@ -22,6 +36,7 @@ exports.getIndex = (req, res, next) => {
     })
 }
 
+// 3ambI4ka - plug
 exports.getCart = (req, res, next) => {
     res.render("shop/cart",
         {
@@ -31,6 +46,7 @@ exports.getCart = (req, res, next) => {
         })
 }
 
+// 3ambI4ka - plug
 exports.getCheckout = (req, res, next) => {
     res.render("shop/checkout",
         {
@@ -40,6 +56,7 @@ exports.getCheckout = (req, res, next) => {
         })
 }
 
+// 3ambI4ka - plug
 exports.getOrders = (req, res, next) => {
     res.render("shop/orders",
         {

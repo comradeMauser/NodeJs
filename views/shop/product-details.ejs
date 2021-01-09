@@ -4,7 +4,29 @@
 <body>
 <!--navigation panel-->
 <%- include('../includes/navigation.ejs') %>
-
-
-
+<main class="centered">
+    <h2><%= product.title %></h2>
+    <hr>
+    <div class="details">
+        <% if (product.imageUrl){ %>
+            <img class="bookImage"
+                 src="<%= product.imageUrl %>" alt="<%= product.title %>">
+        <% } else { %>
+            <img class="bookImage"
+                 src="https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png"
+                 alt="no image">
+        <% } %>
+        <ul class="info">
+            <li><strong>Author:</strong></li>
+            <li><strong>first publication:</strong></li>
+            <li><strong>price: <%= product.price %>$</strong></li>
+            <li><strong>description:</strong> <%= product.description %></li>
+            <li>
+                <form action="/cart" method="POST">
+                    <button class="btn" type="submit">add to cart</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <hr>
 <%- include('../includes/end.ejs') %>
