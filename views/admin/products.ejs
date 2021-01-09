@@ -5,6 +5,44 @@
 <!--navigation panel-->
 <%- include('../includes/navigation.ejs') %>
 
+<main>
+    <% if(prods.length > 0) { %>
+        <h2>Products:</h2>
+        <div class="grid">
+            <% prods.map(product => { %>
+                <article class="card product-item">
+                    <header class="card__header">
+                        <h1 class="product__title"><%= product.title %></h1>
+                    </header>
 
+                    <div class="card__image">
+                        <% if (product.imageUrl) { %>
+                            <img src="<%= product.imageUrl %>"
+                                 alt="<%= product.title %>">
+                        <% } else { %>
+                            <img src="https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png"
+                                 alt="A Book">
+                        <% } %>
+                    </div>
+
+                    <div class="card__content">
+                        <h3 class="product__price">price $: <%= product.price %></h3>
+                        <h3 class="product__price">description:</h3>
+                        <p class="product__description"><%= product.description %></p>
+                    </div>
+                    <div class="card__actions">
+                        <button class="btn">
+                            <a href="/admin/edit-product">Edit Product</a></button>
+                        <form action="/admin/delete-product" method="POST">
+                            <button class="btn">
+                                <a href="/error">Delete Product</a></button>
+                        </form>
+                    </div>
+                </article>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <h2>No products</h2>
+    <% } %>
 
 <%- include('../includes/end.ejs') %>
