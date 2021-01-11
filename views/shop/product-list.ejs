@@ -34,8 +34,8 @@
                         <form action="/add-to-cart" method="POST">
                             <button class="btn">
                                 <a href="/products/<%= product.id %>">Details</a></button>
-                            <button class="btn">Add to Cart</button>
                         </form>
+                        <%- include('../includes/add-to-cart-button.ejs', {product: product}) %>
                     </div>
                 </article>
             <% }) %>

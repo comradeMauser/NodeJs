@@ -47,6 +47,13 @@ exports.getCart = (req, res, next) => {
 }
 
 // 3ambI4ka - plug
+exports.postCart = (req, res, next) => {
+    const productId = req.body.productId
+    console.log(productId)
+    res.redirect('/cart')
+}
+
+// 3ambI4ka - plug
 exports.getCheckout = (req, res, next) => {
     res.render("shop/checkout",
         {

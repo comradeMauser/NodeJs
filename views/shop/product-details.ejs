@@ -22,9 +22,7 @@
             <li><strong>price: <%= product.price %>$</strong></li>
             <li><strong>description:</strong> <%= product.description %></li>
             <li>
-                <form action="/cart" method="POST">
-                    <button class="btn" type="submit">add to cart</button>
-                </form>
+                <%- include('../includes/add-to-cart-button.ejs', {product: product}) %>
             </li>
         </ul>
     </div>
