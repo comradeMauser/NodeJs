@@ -47,7 +47,7 @@ exports.getCart = (req, res, next) => {
         })
 }
 
-// 3ambI4ka - plug
+// adding product/updating cart
 exports.postCart = (req, res, next) => {
     const productId = req.body.productId
     console.log(productId)

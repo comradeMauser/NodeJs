@@ -1,14 +1,12 @@
 const Product = require('../models/product.js')
 
-// /admin/add-product ==> GET
+// /admin/edit-product ==> GET
 exports.getAddProduct = (req, res, next) => {
-    res.render("admin/add-product",
+    res.render("admin/edit-product",
         {
             pageTitle: 'Add Product',
-            path: '/admin/add-product',
-            formsCSS: true,
-            productCSS: true,
-            activeAddProduct: true
+            path: '/admin/add-product', //used for highlighting on navigation panel only
+            editing: false
         })
 }
 
@@ -23,6 +21,31 @@ exports.postAddProduct = (req, res, next) => {
     product.save()
 
     res.redirect('/products')
+}
+
+// /admin/edit-product ==> GET
+exports.getEditProduct = (req, res, next) => {
+    const editMode = req.query.edit // /edit-product/:productId?edit=true
+    if (!editMode) {
+        console.log("err: editMode is false")
+        return res.redirect('/')
+    }
+
+    const productId = req.params.productId
+    console.log(productId)
+    Product.findById(productId, (product) => {
+        if (!product) {
+            console.log("Err: product not found")
+            res.redirect('/')
+        }
+        res.render("admin/edit-product",
+            {
+                pageTitle: 'edit Product',
+                path: '/admin/edit-product', // used for highlighting on navigation panel only
+                editing: editMode,
+                product
+            })
+    })
 }
 
 // /admin/products ==> GET
