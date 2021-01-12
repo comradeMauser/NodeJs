@@ -13,11 +13,11 @@ exports.getAddProduct = (req, res, next) => {
 // /admin/add-product ==> POST
 exports.postAddProduct = (req, res, next) => {
     const title = req.body.title
+    const price = req.body.price
     const imageUrl = req.body.imageUrl
     const description = req.body.description
-    const price = req.body.price
 
-    const product = new Product(title, imageUrl, description, price)
+    const product = new Product(null, title, price, imageUrl, description)
     product.save()
 
     res.redirect('/products')
@@ -32,7 +32,6 @@ exports.getEditProduct = (req, res, next) => {
     }
 
     const productId = req.params.productId
-    console.log(productId)
     Product.findById(productId, (product) => {
         if (!product) {
             console.log("Err: product not found")
@@ -46,6 +45,20 @@ exports.getEditProduct = (req, res, next) => {
                 product
             })
     })
+}
+
+// /admin/edit-product ==> POST
+exports.postEditProduct = (req, res, next) => {
+    const productId = req.body.productId
+    const updatedTitle = req.body.title
+    const updatedPrice = req.body.price
+    const updatedImageUrl = req.body.imageUrl
+    const updatedDescription = req.body.description
+
+    const updatedProduct = new Product(productId, updatedTitle, updatedPrice, updatedImageUrl, updatedDescription)
+    updatedProduct.save()
+
+    res.redirect('/admin/products')
 }
 
 // /admin/products ==> GET

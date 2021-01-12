@@ -1,7 +1,5 @@
 const express = require('express')
 const router = express.Router()
-// const path = require('path')
-// const rootDir = require('../utils/path.js')
 const adminController = require('../controllers/admin.js')
 
 
@@ -16,5 +14,8 @@ router.post('/add-product', adminController.postAddProduct)
 
 // /admin//edit-product/:productId ==> GET
 router.get('/edit-product/:productId', adminController.getEditProduct)
+
+// /admin//edit-product/:productId ==> POST
+router.post('/edit-product', adminController.postEditProduct)
 
 module.exports = router
