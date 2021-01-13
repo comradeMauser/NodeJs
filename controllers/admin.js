@@ -19,7 +19,6 @@ exports.postAddProduct = (req, res, next) => {
 
     const product = new Product(null, title, price, imageUrl, description)
     product.save()
-
     res.redirect('/products')
 }
 
@@ -57,7 +56,6 @@ exports.postEditProduct = (req, res, next) => {
 
     const updatedProduct = new Product(productId, updatedTitle, updatedPrice, updatedImageUrl, updatedDescription)
     updatedProduct.save()
-
     res.redirect('/admin/products')
 }
 

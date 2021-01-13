@@ -38,23 +38,43 @@ exports.getIndex = (req, res, next) => {
     })
 }
 
-// 3ambI4ka - plug
+// will return cart items
 exports.getCart = (req, res, next) => {
-    res.render("shop/cart",
-        {
-            pageTitle: "Cart",
-            path: '/cart',
+    Cart.getCart(cart => {
+        Product.fetchAll(products => {
+            const cartProducts = []
+            for (product of products) {
+                const cartProductData = cart.products.find(prod => prod.id === product.id)
+                if (cartProductData) {
+                    cartProducts.push({productData: product, qty: cartProductData.qty})
+                }
+            }
+            res.render("shop/cart",
+                {
+                    pageTitle: "Cart",
+                    path: '/cart',
+                    products: cartProducts
+                })
         })
+    })
 }
 
 // adding product/updating cart
 exports.postCart = (req, res, next) => {
     const productId = req.body.productId
-    console.log(productId)
     Product.findById(productId, (product) => {
         Cart.addProduct(productId, product.price)
     })
-    res.redirect('/cart')
+    res.redirect('/products')
+}
+
+//deleting product from cart
+exports.postDeleteCartProd = (req, res, next) => {
+    const productId = req.body.productId
+    Product.findById(productId, product => {
+        Cart.deleteProduct(productId, product.price)
+        res.redirect('/cart')
+    })
 }
 
 // 3ambI4ka - plug
