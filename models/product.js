@@ -26,7 +26,7 @@ module.exports = class Product {
     }
 
     save() {
-        getProductFromFile(products => {
+        /*getProductFromFile(products => {
             if (this.id) {
                 const existProdIndex = products.findIndex(prod => prod.id === this.id)
                 const updatedProducts = [...products]
@@ -41,7 +41,11 @@ module.exports = class Product {
                     console.log(err)
                 })
             }
-        })
+        })*/
+        return database.execute(
+            "INSERT INTO products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)",
+            [this.title, this.price, this.imageUrl, this.description]
+        )
     }
 
     static deleteById(id) {
@@ -63,21 +67,12 @@ module.exports = class Product {
         return database.execute("SELECT * FROM products")
     }
 
-    static findById(id, callback) {
-        getProductFromFile(products => {
+    static findById(id) {
+        /*getProductFromFile(products => {
             const product = products.find(prod => prod.id === id)
             callback(product)
         })
+*/
+        return database.execute("SELECT * FROM products WHERE products.id = ?", [id])
     }
-}
-
-exports.getProducts = (req, res, next) => {
-    Product.fetchAll().then(([rows, fieldData]) => {
-        res.render("shop/product-list",
-            {
-                prods: rows,
-                pageTitle: "All products",
-                path: '/products',
-            })
-    }).catch(err => console.log(err))
 }
