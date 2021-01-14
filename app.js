@@ -1,10 +1,10 @@
-const express = require('express')
+ const express = require('express')
 const bodyParser = require('body-parser')
 const adminRoutes = require('./routes/admin.js')
 const shopRoutes = require('./routes/shop.js')
 const path = require('path')
 const errorController = require('./controllers/error.js')
-
+const database = require('./utils/database.js')
 
 const app = express()
 
