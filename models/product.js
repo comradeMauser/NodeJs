@@ -1,3 +1,40 @@
+const Sequelize = require('sequelize')
+
+const sequelize = require('../utils/database.js')
+
+const Product = sequelize.define("product",
+    {
+        id: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
+            allowNull: false,
+            primaryKey: true
+        },
+
+        title: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+
+        price: {
+            type: Sequelize.DOUBLE,
+            allowNull: false
+        },
+
+        imageUrl: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+
+        description: {
+            type: Sequelize.STRING,
+            allowNull: false
+        }
+    })
+
+module.exports = Product
+
+/*
 const fs = require('fs')
 const path = require('path')
 const Cart = require('./cart')
@@ -26,7 +63,7 @@ module.exports = class Product {
     }
 
     save() {
-        /*getProductFromFile(products => {
+        /!*getProductFromFile(products => {
             if (this.id) {
                 const existProdIndex = products.findIndex(prod => prod.id === this.id)
                 const updatedProducts = [...products]
@@ -41,7 +78,7 @@ module.exports = class Product {
                     console.log(err)
                 })
             }
-        })*/
+        })*!/
         return database.execute(
             "INSERT INTO products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)",
             [this.title, this.price, this.imageUrl, this.description]
@@ -68,11 +105,11 @@ module.exports = class Product {
     }
 
     static findById(id) {
-        /*getProductFromFile(products => {
+        /!*getProductFromFile(products => {
             const product = products.find(prod => prod.id === id)
             callback(product)
         })
-*/
+*!/
         return database.execute("SELECT * FROM products WHERE products.id = ?", [id])
     }
-}
+}*/
