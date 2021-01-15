@@ -3,39 +3,39 @@ const Cart = require('../models/cart')
 
 //for main page
 exports.getIndex = (req, res, next) => {
-    Product.fetchAll().then(() => {
+    Product.findAll().then(product => {
         res.render("shop/index",
             {
                 pageTitle: "Main",
                 path: '/shop',
             })
-    }).catch(err => console.log(err))
-
+    }).catch(err => console.log(`getIndex error: ${err}`.brightRed))
 }
 
 // for all products
 exports.getProducts = (req, res, next) => {
-    Product.fetchAll().then(([rows, fieldData]) => {
+    Product.findAll().then(product => {
         res.render("shop/product-list",
             {
-                prods: rows,
+                prods: product,
                 pageTitle: "All products",
                 path: '/products',
             })
-    }).catch(err => console.log(err))
+    }).catch(err => console.log(`getProducts error: ${err}`.brightRed))
 }
 
 //for single product
 exports.getProduct = (req, res, next) => {
     const productId = req.params.productId
-    Product.findById(productId).then(([product]) => {
-        res.render('shop/product-details',
-            {
-                product: product[0],
-                pageTitle: product[0].title,
-                path: '/products/:productId'
-            })
-    }).catch(err => console.log(err))
+    Product.findOne({where: {id: productId}})
+        .then(product => {
+            res.render('shop/product-details',
+                {
+                    product,
+                    pageTitle: product.title,
+                    path: '/products/:productId'
+                })
+        }).catch(err => console.log(err))
 }
 
 // will return cart items

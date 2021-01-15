@@ -1,4 +1,6 @@
+const colors = require('colors')
 const Product = require('../models/product.js')
+
 
 // /admin/edit-product ==> GET
 exports.getAddProduct = (req, res, next) => {
@@ -17,10 +19,9 @@ exports.postAddProduct = (req, res, next) => {
     const imageUrl = req.body.imageUrl
     const description = req.body.description
 
-    const product = new Product(null, title, price, imageUrl, description)
-    product.save().then(() => {
-        res.redirect('/products')
-    }).catch(err => console.log(err))
+    Product.create({title, price, imageUrl, description})
+        .then(result => console.log("product created".brightBlue))
+        .catch(err => console.log(`postAddProduct error: ${err}`.brightRed))
 }
 
 // /admin/edit-product ==> GET
