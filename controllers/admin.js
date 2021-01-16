@@ -20,7 +20,10 @@ exports.postAddProduct = (req, res, next) => {
     const description = req.body.description
 
     Product.create({title, price, imageUrl, description})
-        .then(result => console.log("product created".brightBlue))
+        .then(result => {
+            console.log("product created".brightBlue)
+            res.redirect('/admin/products')
+        })
         .catch(err => console.log(`postAddProduct error: ${err}`.brightRed))
 }
 
@@ -33,7 +36,7 @@ exports.getEditProduct = (req, res, next) => {
     }
 
     const productId = req.params.productId
-    Product.findById(productId, (product) => {
+    Product.findOne({where: {id: productId}}).then(product => {
         if (!product) {
             console.log("Err: product not found")
             res.redirect('/')
@@ -56,27 +59,42 @@ exports.postEditProduct = (req, res, next) => {
     const updatedImageUrl = req.body.imageUrl
     const updatedDescription = req.body.description
 
-    const updatedProduct = new Product(productId, updatedTitle, updatedPrice, updatedImageUrl, updatedDescription)
-    updatedProduct.save()
-    res.redirect('/admin/products')
+    Product.findOne({where: {id: productId}})
+        .then(product => {
+            product.title = updatedTitle
+            product.price = updatedPrice
+            product.imageUrl = updatedImageUrl
+            product.description = updatedDescription
+            product.save()
+        }).then(result => { //this .then() refers to product.save() function
+        res.redirect('/admin/products')
+        console.log(`update success`.brightBlue)
+    }).catch(err => console.log(`update failure: ${err}`.brightRed))
 }
 
 // /admin/delete-product ==> POST
 exports.postDeleteProduct = (req, res, next) => {
     const productId = req.body.productId
-    console.log(productId, "-post delete")
-    Product.deleteById(productId)
-    res.redirect('/admin/products')
+    Product.findOne({where: {id: productId}})
+        .then(product => {
+            product.destroy()
+        })
+        .then(result => {
+            console.log(`DESTROY DESTROY DESTROY!!!`.rainbow)
+            res.redirect('/admin/products')
+
+        })
+        .catch(err => console.log(`destroing failed`.brightRed))
 }
 
 // /admin/products ==> GET
 exports.getProducts = (req, res, next) => {
-    Product.fetchAll(products => {
+    Product.findAll().then(products => {
         res.render("admin/products",
             {
                 prods: products,
                 pageTitle: "Admin Panel",
                 path: '/admin/products',
             })
-    })
+    }).catch(err => console.log(`getProducts error: ${err}`.brightRed))
 }

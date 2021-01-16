@@ -35,7 +35,7 @@ exports.getProduct = (req, res, next) => {
                     pageTitle: product.title,
                     path: '/products/:productId'
                 })
-        }).catch(err => console.log(err))
+        }).catch(err => console.log(`getProduct error: ${err}`.brightRed))
 }
 
 // will return cart items
