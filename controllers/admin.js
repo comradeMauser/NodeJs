@@ -18,12 +18,12 @@ exports.postAddProduct = (req, res, next) => {
     const price = req.body.price
     const imageUrl = req.body.imageUrl
     const description = req.body.description
-
-    Product.create({title, price, imageUrl, description})
-        .then(result => {
-            console.log("product created".brightBlue)
-            res.redirect('/admin/products')
-        })
+    req.user.createProduct({
+        title, price, imageUrl, description
+    }).then(result => {
+        console.log("product created".brightBlue)
+        res.redirect('/admin/products')
+    })
         .catch(err => console.log(`postAddProduct error: ${err}`.brightRed))
 }
 

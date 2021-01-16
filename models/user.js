@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../utils/database.js')
 
-const Product = sequelize.define("product",
+const User = sequelize.define("user",
     {
         id: {
             type: Sequelize.INTEGER,
@@ -9,26 +9,18 @@ const Product = sequelize.define("product",
             allowNull: false,
             primaryKey: true
         },
-
-        title: {
+        name: {
             type: Sequelize.STRING,
             allowNull: false
         },
-
-        price: {
-            type: Sequelize.DOUBLE,
-            allowNull: false
-        },
-
-        imageUrl: {
+        email: {
             type: Sequelize.STRING,
             allowNull: false
         },
-
-        description: {
-            type: Sequelize.STRING,
-            allowNull: false
-        }
+        // password: {
+        //     type: Sequelize.STRING,
+        //     allowNull: false
+        // },
     })
 
-module.exports = Product
+module.exports = User
