@@ -40,7 +40,6 @@ Product.belongsTo(User, {constraints: true, onDelete: "CASCADE"})
 User.hasMany(Product) //optional
 User.hasOne(Cart)
 Cart.belongsTo(User)
-// Cart.hasMany(CartItem)
 Cart.belongsToMany(Product, {through: CartItem})
 Product.belongsToMany(Cart, {through: CartItem})
 
