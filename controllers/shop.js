@@ -9,7 +9,7 @@ exports.getIndex = (req, res, next) => {
                 pageTitle: "Main",
                 path: '/shop',
             })
-    }).catch(err => console.log(`getIndex error: ${err}`.brightRed))
+    }).catch(err => console.log("getIndex".bold.bgRed, `${err}`.brightRed))
 }
 
 // for all products
@@ -21,7 +21,7 @@ exports.getProducts = (req, res, next) => {
                 pageTitle: "All products",
                 path: '/products',
             })
-    }).catch(err => console.log(`getProducts error: ${err}`.brightRed))
+    }).catch(err => console.log("getProducts:".bold.bgRed, `${err}`.brightRed))
 }
 
 //for single product
@@ -35,28 +35,22 @@ exports.getProduct = (req, res, next) => {
                     pageTitle: product.title,
                     path: '/products/:productId'
                 })
-        }).catch(err => console.log(`getProduct error: ${err}`.brightRed))
+        }).catch(err => console.log("getProduct".bold.bgRed, `${err}`.brightRed))
 }
 
 // will return cart items
 exports.getCart = (req, res, next) => {
-    Cart.getCart(cart => {
-        Product.fetchAll(products => {
-            const cartProducts = []
-            for (product of products) {
-                const cartProductData = cart.products.find(prod => prod.id === product.id)
-                if (cartProductData) {
-                    cartProducts.push({productData: product, qty: cartProductData.qty})
-                }
-            }
+    req.user.getCart().then(cart => {
+        console.log(cart)
+        return cart.getProducts().then(products => {
             res.render("shop/cart",
                 {
                     pageTitle: "Cart",
                     path: '/cart',
-                    products: cartProducts
+                    products
                 })
-        })
-    })
+        }).catch(err => console.log("getCart/getProducts".bold.bgRed, `${err}`.brightRed))
+    }).catch(err => console.log("getCart".bold.bgRed, `${err}`.brightRed))
 }
 
 // adding product/updating cart

@@ -31,24 +31,26 @@ exports.postAddProduct = (req, res, next) => {
 exports.getEditProduct = (req, res, next) => {
     const editMode = req.query.edit // /edit-product/:productId?edit=true
     if (!editMode) {
-        console.log("err: editMode is false")
         return res.redirect('/')
     }
 
     const productId = req.params.productId
-    Product.findOne({where: {id: productId}}).then(product => {
-        if (!product) {
-            console.log("Err: product not found")
-            res.redirect('/')
-        }
-        res.render("admin/edit-product",
-            {
-                pageTitle: 'edit Product',
-                path: '/admin/edit-product', // used for highlighting on navigation panel only
-                editing: editMode,
-                product
-            })
-    })
+    req.user.getProducts({where: {id: productId}})
+        // Product.findOne({where: {id: productId}})
+        .then(products => {
+            const product = products[0]
+            if (!product) {
+                console.log("Err: product not found")
+                res.redirect('/')
+            }
+            res.render("admin/edit-product",
+                {
+                    pageTitle: 'edit Product',
+                    path: '/admin/products', // used for highlighting on navigation panel only
+                    editing: editMode,
+                    product
+                })
+        })
 }
 
 // /admin/edit-product ==> POST
@@ -89,12 +91,13 @@ exports.postDeleteProduct = (req, res, next) => {
 
 // /admin/products ==> GET
 exports.getProducts = (req, res, next) => {
-    Product.findAll().then(products => {
-        res.render("admin/products",
-            {
-                prods: products,
-                pageTitle: "Admin Panel",
-                path: '/admin/products',
-            })
-    }).catch(err => console.log(`getProducts error: ${err}`.brightRed))
+    req.user.getProducts()
+        .then(products => {
+            res.render("admin/products",
+                {
+                    prods: products,
+                    pageTitle: "Admin Panel",
+                    path: '/admin/products',
+                })
+        }).catch(err => console.log(`getProducts error: ${err}`.brightRed))
 }

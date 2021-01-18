@@ -8,8 +8,11 @@ const adminRoutes = require('./routes/admin.js')
 const shopRoutes = require('./routes/shop.js')
 
 const sequelize = require('./utils/database')
+
 const Product = require('./models/product.js')
 const User = require('./models/user.js')
+const Cart = require('./models/cart.js')
+const CartItem = require('./models/cart-item.js')
 
 const app = express()
 
@@ -35,12 +38,20 @@ app.use(errorController.get404)
 
 Product.belongsTo(User, {constraints: true, onDelete: "CASCADE"})
 User.hasMany(Product) //optional
+User.hasOne(Cart)
+Cart.belongsTo(User)
+// Cart.hasMany(CartItem)
+Cart.belongsToMany(Product, {through: CartItem})
+Product.belongsToMany(Cart, {through: CartItem})
 
-// sequelize.sync({force: true})
+
+// sequelize.sync({force: true}).then(result => {
 sequelize.sync().then(result => {
     return User.findByPk(1) //dummy identifier
 }).then(user => {
-    return user ? user : User.create({name: "John Doe", email: "fhtagn@com"})
+    return user ? user : User.create({name: "John Doe", email: "com@com"})
 }).then(user => {
+    return user.createCart()
+}).then(cart => {
     app.listen(3000)
 }).catch(err => console.log(`sequelize error: ${err}`))
