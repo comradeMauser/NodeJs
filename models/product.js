@@ -1,6 +1,21 @@
-const Sequelize = require('sequelize')
-const sequelize = require('../utils/database.js')
+// const Sequelize = require('sequelize')
+// const sequelize = require('../utils/database.js')
 
+const mongoConnect = require('../utils/database.js')
+
+class Product {
+    constructor(title, price, imageUrl, description) {
+        this.title = title
+        this.price = price
+        this.imageUrl = imageUrl
+        this.description = description
+    }
+
+    save() {
+    }
+}
+
+/*
 const Product = sequelize.define("product",
     {
         id: {
@@ -26,5 +41,6 @@ const Product = sequelize.define("product",
             allowNull: false
         }
     })
+*/
 
 module.exports = Product
