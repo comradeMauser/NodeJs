@@ -4,7 +4,7 @@
 <body>
 <!--navigation panel-->
 <%- include('../includes/navigation.ejs') %>
-<h1>Cart</h1>
+<h1>Cart page</h1>
 <main>
     <% if(products.length > 0 ){ %>
         <div class="listHeader"> Cart items:</div>
@@ -19,6 +19,10 @@
                 </li>
             <% }) %>
         </ul>
+        <form action="/create-order" method="POST">
+            <button class="btn" type="submit">order</button>
+        </form>
+
         <hr>
     <% }else { %>
         <h3>cart is empty yet</h3>
