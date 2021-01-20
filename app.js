@@ -4,10 +4,10 @@ const c = require('colors')
 const bodyParser = require('body-parser')
 
 const errorController = require('./controllers/error.js')
-const mongoConnect = require('./utils/database.js')
+const mongoConnect = require('./utils/database.js').mongoConnect
 
 const adminRoutes = require('./routes/admin.js')
-// const shopRoutes = require('./routes/shop.js')
+const shopRoutes = require('./routes/shop.js')
 
 const app = express()
 
@@ -22,15 +22,15 @@ app.use((req, res, next) => {
             req.user = user
             next()
         }).catch(err => console.log(err))*/
+    next()
 })
 
 app.use('/admin', adminRoutes)
-// app.use(shopRoutes)
+app.use(shopRoutes)
 
 // 404 case
 app.use(errorController.get404)
 
-mongoConnect(client => {
-    console.log(client)
+mongoConnect(() => {
     app.listen(3000)
 })
