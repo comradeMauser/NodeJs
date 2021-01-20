@@ -1,6 +1,7 @@
 const colors = require('colors')
 const Product = require('../models/product.js')
-
+// const mongodb = require('mongodb')
+// const ObjectId = mongodb.ObjectID
 
 // /admin/edit-product ==> GET
 exports.getAddProduct = (req, res, next) => {
@@ -23,6 +24,7 @@ exports.postAddProduct = (req, res, next) => {
         .then(result => {
             console.log("product created".brightBlue)
             res.redirect('/admin/products')
+
         })
         .catch(err => console.log(`postAddProduct error: ${err}`.brightRed))
 }
@@ -35,10 +37,9 @@ exports.getEditProduct = (req, res, next) => {
     }
 
     const productId = req.params.productId
-    req.user.getProducts({where: {id: productId}})
-        // Product.findOne({where: {id: productId}})
-        .then(products => {
-            const product = products[0]
+    Product.findById(productId)
+        .then(product => {
+            console.log(product)
             if (!product) {
                 console.log("Err: product not found")
                 res.redirect('/')
@@ -56,31 +57,30 @@ exports.getEditProduct = (req, res, next) => {
 // /admin/edit-product ==> POST
 exports.postEditProduct = (req, res, next) => {
     const productId = req.body.productId
+
     const updatedTitle = req.body.title
     const updatedPrice = req.body.price
     const updatedImageUrl = req.body.imageUrl
     const updatedDescription = req.body.description
 
-    Product.findOne({where: {id: productId}})
-        .then(product => {
-            product.title = updatedTitle
-            product.price = updatedPrice
-            product.imageUrl = updatedImageUrl
-            product.description = updatedDescription
-            product.save()
-        }).then(result => { //this .then() refers to product.save() function
-        res.redirect('/admin/products')
-        console.log(`update success`.brightBlue)
-    }).catch(err => console.log(`update failure: ${err}`.brightRed))
+    const product = new Product(
+        updatedTitle,
+        updatedPrice,
+        updatedImageUrl,
+        updatedDescription,
+        productId)
+    product.save()
+        .then(result => {
+            res.redirect('/admin/products')
+            console.log(`update success`.brightBlue)
+        })
+        .catch(err => console.log(`update failure: ${err}`.brightRed))
 }
 
 // /admin/delete-product ==> POST
 exports.postDeleteProduct = (req, res, next) => {
     const productId = req.body.productId
-    Product.findOne({where: {id: productId}})
-        .then(product => {
-            product.destroy()
-        })
+    Product.deleteById(productId)
         .then(result => {
             console.log(`DESTROY DESTROY DESTROY!!!`.rainbow)
             res.redirect('/admin/products')
@@ -91,7 +91,7 @@ exports.postDeleteProduct = (req, res, next) => {
 
 // /admin/products ==> GET
 exports.getProducts = (req, res, next) => {
-    req.user.getProducts()
+    Product.fetchAll()
         .then(products => {
             res.render("admin/products",
                 {

@@ -14,14 +14,15 @@ exports.getIndex = (req, res, next) => {
 
 // for all products
 exports.getProducts = (req, res, next) => {
-    Product.fetchAll().then(products => {
-        res.render("shop/product-list",
-            {
-                prods: products,
-                pageTitle: "All products",
-                path: '/products',
-            })
-    }).catch(err => console.log("getProducts:".bold.bgRed, `${err}`.brightRed))
+    Product.fetchAll()
+        .then(products => {
+            res.render("shop/product-list",
+                {
+                    prods: products,
+                    pageTitle: "All products",
+                    path: '/products',
+                })
+        }).catch(err => console.log("getProducts:".bold.bgRed, `${err}`.brightRed))
 }
 
 //for single product
