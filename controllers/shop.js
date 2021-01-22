@@ -56,7 +56,11 @@ exports.getCart = (req, res, next) => {
 // adding product/updating cart
 exports.postCart = (req, res, next) => {
     const productId = req.body.productId
-    let fetchedCart
+    Product.findById(productId)
+        .then(product => req.user.addToCart(product))
+        .catch(err => console.log("postCart".bold.bgRed, `${err}`.brightRed))
+
+    /*let fetchedCart
     let newQuantity = 1
 
     req.user.getCart()
@@ -79,7 +83,7 @@ exports.postCart = (req, res, next) => {
         .then(product => {
             return fetchedCart.addProduct(product, {through: {quantity: newQuantity}})
         })
-        .catch(err => console.log("postCart".bold.bgRed, `${err}`.brightRed))
+        .catch(err => console.log("postCart".bold.bgRed, `${err}`.brightRed))*/
 }
 
 //deleting product from cart
