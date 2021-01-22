@@ -1,7 +1,6 @@
 const colors = require('colors')
 const Product = require('../models/product.js')
-// const mongodb = require('mongodb')
-// const ObjectId = mongodb.ObjectID
+
 
 // /admin/edit-product ==> GET
 exports.getAddProduct = (req, res, next) => {

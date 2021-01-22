@@ -41,16 +41,16 @@ exports.getProduct = (req, res, next) => {
 
 // will return cart items
 exports.getCart = (req, res, next) => {
-    req.user.getCart().then(cart => {
-        return cart.getProducts().then(products => {
+    req.user.getCart()
+        .then(products => {
             res.render("shop/cart",
                 {
+                    products,
                     pageTitle: "Cart",
-                    path: '/cart',
-                    products
+                    path: '/cart'
                 })
-        }).catch(err => console.log("getCart/getProducts".bold.bgRed, `${err}`.brightRed))
-    }).catch(err => console.log("getCart".bold.bgRed, `${err}`.brightRed))
+        })
+        .catch(err => console.log("getCart".bold.bgRed, `${err}`.brightRed))
 }
 
 // adding product/updating cart
@@ -58,45 +58,14 @@ exports.postCart = (req, res, next) => {
     const productId = req.body.productId
     Product.findById(productId)
         .then(product => req.user.addToCart(product))
+        .then(r => res.redirect('/cart'))
         .catch(err => console.log("postCart".bold.bgRed, `${err}`.brightRed))
-
-    /*let fetchedCart
-    let newQuantity = 1
-
-    req.user.getCart()
-        .then(cart => {
-            fetchedCart = cart
-            return cart.getProducts({where: {id: productId}})
-        })
-        .then(products => {
-            let product
-            if (products.length > 0) {
-                product = products[0]
-            }
-            if (product) {
-                const prevQuantity = product.cartItem.quantity
-                newQuantity = prevQuantity + 1
-                return product
-            }
-            return Product.findByPk(productId)
-        })
-        .then(product => {
-            return fetchedCart.addProduct(product, {through: {quantity: newQuantity}})
-        })
-        .catch(err => console.log("postCart".bold.bgRed, `${err}`.brightRed))*/
 }
 
 //deleting product from cart
 exports.postDeleteCartProd = (req, res, next) => {
     const productId = req.body.productId
-    req.user.getCart()
-        .then(cart => {
-            return cart.getProducts({where: {id: productId}})
-        })
-        .then(products => {
-            const product = products[0]
-            return product.cartItem.destroy()
-        })
+    req.user.deleteFromCart(productId)
         .then(result => {
             console.log(`DESTROY DESTROY DESTROY!!!`.rainbow)
             res.redirect('/cart')
