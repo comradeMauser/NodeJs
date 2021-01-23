@@ -2,6 +2,19 @@ const colors = require('colors')
 const Product = require('../models/product.js')
 
 
+// /admin/products ==> GET
+exports.getProducts = (req, res, next) => {
+    Product.find()
+        .then(products => {
+            res.render("admin/products",
+                {
+                    prods: products,
+                    pageTitle: "Admin Panel",
+                    path: '/admin/products',
+                })
+        }).catch(err => console.log(`getProducts error: ${err}`.brightRed))
+}
+
 // /admin/edit-product ==> GET
 exports.getAddProduct = (req, res, next) => {
     res.render("admin/edit-product",
@@ -18,7 +31,13 @@ exports.postAddProduct = (req, res, next) => {
     const price = req.body.price
     const imageUrl = req.body.imageUrl
     const description = req.body.description
-    const product = new Product({title, price, imageUrl, description})
+    const product = new Product({
+        title,
+        price,
+        imageUrl,
+        description,
+        userId: req.user // or req.user._id
+    })
     product.save()
         .then(result => {
             console.log("product created".brightBlue)
@@ -61,13 +80,14 @@ exports.postEditProduct = (req, res, next) => {
     const updatedImageUrl = req.body.imageUrl
     const updatedDescription = req.body.description
 
-    const product = new Product(
-        updatedTitle,
-        updatedPrice,
-        updatedImageUrl,
-        updatedDescription,
-        productId)
-    product.save()
+    Product.findById(productId)
+        .then(product => {
+            product.title = updatedTitle
+            product.price = updatedPrice
+            product.imageUrl = updatedImageUrl
+            product.description = updatedDescription
+            return product.save()
+        })
         .then(result => {
             res.redirect('/admin/products')
             console.log(`update success`.brightBlue)
@@ -78,24 +98,11 @@ exports.postEditProduct = (req, res, next) => {
 // /admin/delete-product ==> POST
 exports.postDeleteProduct = (req, res, next) => {
     const productId = req.body.productId
-    Product.deleteById(productId)
+    Product.findByIdAndDelete(productId)
         .then(result => {
             console.log(`DESTROY DESTROY DESTROY!!!`.rainbow)
             res.redirect('/admin/products')
 
         })
         .catch(err => console.log(`destroing failed`.brightRed))
-}
-
-// /admin/products ==> GET
-exports.getProducts = (req, res, next) => {
-    Product.fetchAll()
-        .then(products => {
-            res.render("admin/products",
-                {
-                    prods: products,
-                    pageTitle: "Admin Panel",
-                    path: '/admin/products',
-                })
-        }).catch(err => console.log(`getProducts error: ${err}`.brightRed))
 }

@@ -1,3 +1,34 @@
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+
+const userSchema = mongoose.Schema(
+    {
+        userName: {
+            type: String,
+            required: true
+        },
+        email: {
+            type: String,
+            required: true
+        },
+        cart: {
+            items: [{
+                productId: {
+                    type: Schema.Types.ObjectId,
+                    required: true
+                },
+                quantity: {
+                    type: Number,
+                    required: true
+                }
+            }]
+        }
+    }
+)
+
+module.exports = mongoose.model("User", userSchema)
+
+/*
 const getDb = require('../utils/database.js').getDb
 const mongodb = require('mongodb')
 const ObjectId = mongodb.ObjectID
@@ -103,4 +134,4 @@ class User {
     }
 }
 
-module.exports = User
+module.exports = User*/

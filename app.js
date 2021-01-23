@@ -19,27 +19,33 @@ app.set("views", "views")
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.static(path.join(__dirname, "public")))
 
-/*app.use((req, res, next) => {
-    User.findById("6009acdc84164b6dfd701e46")
+app.use((req, res, next) => {
+    User.findById("600c6143f8ce18315c9cb694")
         .then(user => {
-            req.user = new User(user.userName, user.email, user.cart, user._id)
+            req.user = user
             next()
         }).catch(err => console.log(err))
-})*/
+})
 
 app.use('/admin', adminRoutes)
 app.use(shopRoutes)
 
 // 404 case
 app.use(errorController.get404)
-/*
 
-mongoConnect(() => {
-    app.listen(3000)
-})*/
-mongoose
-    .connect("mongodb+srv://JohnDoe:nIiMOHbOi16uVwou@nodecluster.qflh4.mongodb.net/shop?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://JohnDoe:nIiMOHbOi16uVwou@nodecluster.qflh4.mongodb.net/shop?retryWrites=true&w=majority")
     .then(r => {
+        User.findOne()
+            .then(user => {
+                if (!user) {
+                    const user = new User({
+                        userName: "JohnDoe",
+                        email: "com@com",
+                        cart: {items: []}
+                    })
+                    user.save()
+                }
+            })
         app.listen(3000)
     })
     .catch(err => console.log("connect".bold.bgRed, `${err}`.brightRed))
