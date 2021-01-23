@@ -3,18 +3,19 @@ const Product = require('../models/product.js')
 
 //for main page
 exports.getIndex = (req, res, next) => {
-    Product.fetchAll().then(product => {
-        res.render("shop/index",
-            {
-                pageTitle: "Main",
-                path: '/shop',
-            })
-    }).catch(err => console.log("getIndex".bold.bgRed, `${err}`.brightRed))
+    Product.find()
+        .then(product => {
+            res.render("shop/index",
+                {
+                    pageTitle: "Main",
+                    path: '/shop',
+                })
+        }).catch(err => console.log("getIndex".bold.bgRed, `${err}`.brightRed))
 }
 
 // for all products
 exports.getProducts = (req, res, next) => {
-    Product.fetchAll()
+    Product.find()
         .then(products => {
             res.render("shop/product-list",
                 {
