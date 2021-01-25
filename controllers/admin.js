@@ -5,7 +5,10 @@ const Product = require('../models/product.js')
 // /admin/products ==> GET
 exports.getProducts = (req, res, next) => {
     Product.find()
+        // .select("title price -_id")
+        // .populate("userId", "userName")
         .then(products => {
+            // console.log(products)
             res.render("admin/products",
                 {
                     prods: products,

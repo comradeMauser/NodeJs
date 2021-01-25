@@ -42,14 +42,17 @@ exports.getProduct = (req, res, next) => {
 
 // will return cart items
 exports.getCart = (req, res, next) => {
-    req.user.getCart()
-        .then(products => {
-            res.render("shop/cart",
-                {
-                    products,
-                    pageTitle: "Cart",
-                    path: '/cart'
-                })
+    req.user
+        .populate("cart.items").populate("productId")
+        .execPopulate()
+        .then(user => {
+            const products = user.cart.items
+            console.log("products:",products)
+            res.render('shop/cart', {
+                path: '/cart',
+                pageTitle: 'Your Cart',
+                products: products
+            })
         })
         .catch(err => console.log("getCart".bold.bgRed, `${err}`.brightRed))
 }
@@ -58,7 +61,9 @@ exports.getCart = (req, res, next) => {
 exports.postCart = (req, res, next) => {
     const productId = req.body.productId
     Product.findById(productId)
-        .then(product => req.user.addToCart(product))
+        .then(product => {
+            return req.user.addToCart(product);
+        })
         .then(r => res.redirect('/cart'))
         .catch(err => console.log("postCart".bold.bgRed, `${err}`.brightRed))
 }
