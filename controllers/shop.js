@@ -43,11 +43,11 @@ exports.getProduct = (req, res, next) => {
 // will return cart items
 exports.getCart = (req, res, next) => {
     req.user
-        .populate("cart.items").populate("productId")
+        .populate("cart.items.productId")
         .execPopulate()
         .then(user => {
             const products = user.cart.items
-            console.log("products:",products)
+            console.log("products:", products)
             res.render('shop/cart', {
                 path: '/cart',
                 pageTitle: 'Your Cart',
