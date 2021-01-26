@@ -1,4 +1,5 @@
 const Product = require('../models/product.js')
+const Order = require('../models/order.js')
 
 
 //for main page
@@ -47,7 +48,6 @@ exports.getCart = (req, res, next) => {
         .execPopulate()
         .then(user => {
             const products = user.cart.items
-            console.log("products:", products)
             res.render('shop/cart', {
                 path: '/cart',
                 pageTitle: 'Your Cart',
@@ -79,15 +79,6 @@ exports.postDeleteCartProd = (req, res, next) => {
         .catch(err => console.log("postDeleteCartProd".bold.bgRed, `${err}`.brightRed))
 }
 
-// 3ambI4ka - plug
-exports.getCheckout = (req, res, next) => {
-    res.render("shop/checkout",
-        {
-            pageTitle: "Checkout",
-            path: '/checkout',
-        })
-}
-
 exports.getOrders = (req, res, next) => {
     req.user.getOrders()
         .then(orders => {
@@ -104,9 +95,36 @@ exports.getOrders = (req, res, next) => {
 }
 
 exports.postOrder = (req, res, next) => {
-    req.user.addOrder()
+    req.user
+        .populate("cart.items.productId")
+        .execPopulate()
+        .then(user => {
+            const products = user.cart.items.map(item => {
+                return {
+                    quantity: item.quantity,
+                    product: {...item.productId._doc}
+                }
+            })
+            const order = new Order({
+                user: {
+                    name: req.user.userName,
+                    userId: req.user // automatic data extraction
+                },
+                products
+            })
+            return order.save()
+        })
         .then(result => {
             res.redirect('/orders')
         })
         .catch(err => console.log("postOrder".bold.bgRed, `${err}`.brightRed))
+}
+
+// 3ambI4ka - plug
+exports.getCheckout = (req, res, next) => {
+    res.render("shop/checkout",
+        {
+            pageTitle: "Checkout",
+            path: '/checkout',
+        })
 }
