@@ -1,0 +1,12 @@
+.login-form {
+    width: 20rem;
+    max-width: 90%;
+    margin: auto;
+}
+
+.form-control {
+    display: block;
+    text-align: right;
+    margin: 0.5rem 0;
+    width: 100%;
+}

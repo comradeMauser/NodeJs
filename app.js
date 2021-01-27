@@ -10,6 +10,7 @@ const User = require('./models/user.js')
 
 const adminRoutes = require('./routes/admin.js')
 const shopRoutes = require('./routes/shop.js')
+const authRoutes = require('./routes/auth.js')
 
 const app = express()
 
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 
 app.use('/admin', adminRoutes)
 app.use(shopRoutes)
+app.use(authRoutes)
 
 // 404 case
 app.use(errorController.get404)
