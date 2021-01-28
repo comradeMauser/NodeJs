@@ -3,6 +3,12 @@ exports.getLogin = (req, res, next) => {
         {
             pageTitle: "Authentication",
             path: '/login',
+            isAuthenticated: req.isLoggedIn
         })
-    // .catch(err => console.log("getLogin".bold.bgRed, `${err}`.brightRed))
+        .catch(err => console.log("getLogin".bold.bgRed, `${err}`.brightRed))
+}
+
+exports.postLogin = (req, res, next) => {
+    req.isLoggedIn = true
+    res.redirect('/')
 }

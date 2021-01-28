@@ -9,6 +9,7 @@ exports.getIndex = (req, res, next) => {
                 {
                     pageTitle: "Main",
                     path: '/shop',
+                    isAuthenticated: req.isLoggedIn
                 })
         }).catch(err => console.log("getIndex".bold.bgRed, `${err}`.brightRed))
 }
@@ -22,6 +23,7 @@ exports.getProducts = (req, res, next) => {
                     prods: products,
                     pageTitle: "All products",
                     path: '/products',
+                    isAuthenticated: req.isLoggedIn
                 })
         }).catch(err => console.log("getProducts:".bold.bgRed, `${err}`.brightRed))
 }
@@ -35,7 +37,8 @@ exports.getProduct = (req, res, next) => {
                 {
                     product,
                     pageTitle: product.title,
-                    path: '/products/:productId'
+                    path: '/products/:productId',
+                    isAuthenticated: req.isLoggedIn
                 })
         }).catch(err => console.log("getProduct".bold.bgRed, `${err}`.brightRed))
 }
@@ -50,7 +53,8 @@ exports.getCart = (req, res, next) => {
             res.render('shop/cart', {
                 path: '/cart',
                 pageTitle: 'Your Cart',
-                products: products
+                products: products,
+                isAuthenticated: req.isLoggedIn
             })
         })
         .catch(err => console.log("getCart".bold.bgRed, `${err}`.brightRed))
@@ -86,6 +90,7 @@ exports.getOrders = (req, res, next) => {
                     orders,
                     pageTitle: "Orders",
                     path: '/orders',
+                    isAuthenticated: req.isLoggedIn
                 })
         })
         .catch(err => console.log("getOrders".bold.bgRed, `${err}`.brightRed))

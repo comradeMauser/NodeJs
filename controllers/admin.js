@@ -14,6 +14,7 @@ exports.getProducts = (req, res, next) => {
                     prods: products,
                     pageTitle: "Admin Panel",
                     path: '/admin/products',
+                    isAuthenticated: req.isLoggedIn
                 })
         }).catch(err => console.log(`getProducts error: ${err}`.brightRed))
 }
@@ -24,7 +25,8 @@ exports.getAddProduct = (req, res, next) => {
         {
             pageTitle: 'Add Product',
             path: '/admin/add-product', //used for highlighting on navigation panel only
-            editing: false
+            editing: false,
+            isAuthenticated: req.isLoggedIn
         })
 }
 
@@ -69,7 +71,8 @@ exports.getEditProduct = (req, res, next) => {
                     pageTitle: 'edit Product',
                     path: '/admin/products', // used for highlighting on navigation panel only
                     editing: editMode,
-                    product
+                    product,
+                    isAuthenticated: req.isLoggedIn
                 })
         })
 }

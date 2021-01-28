@@ -21,13 +21,17 @@
                 <a href="/checkout" class="<%= path === "/checkout" ? "active" : "" %>">Checkout</a>
             </li>
 
-            <!--<li class="main-header__item">
-                <a href="/admin/add-product" class="<%= path === "/admin/add-product" ? "active" : "" %>">Add Product</a>
-            </li>
+            <% if (isAuthenticated){ %>
+                <li class="main-header__item">
+                    <a href="/admin/add-product" class="<%= path === "/admin/add-product" ? "active" : "" %>">Add
+                        Product</a>
+                </li>
 
-            <li class="main-header__item">
-                <a href="/admin/products" class="<%= path === "/admin/products" ? "active" : "" %>">Admin products</a>
-            </li>-->
+                <li class="main-header__item">
+                    <a href="/admin/products" class="<%= path === "/admin/products" ? "active" : "" %>">Admin
+                        products</a>
+                </li>
+            <% } %>
 
         </ul>
 
