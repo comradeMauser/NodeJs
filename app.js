@@ -11,6 +11,7 @@ const User = require('./models/user.js')
 const adminRoutes = require('./routes/admin.js')
 const shopRoutes = require('./routes/shop.js')
 const authRoutes = require('./routes/auth.js')
+const session = require('express-session')
 
 const app = express()
 
@@ -19,6 +20,13 @@ app.set("views", "views")
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.static(path.join(__dirname, "public")))
+app.use(
+    session({
+        secret: 'unimaginably long string',
+        resave: false,
+        saveUninitialized: false
+    })
+)
 
 app.use((req, res, next) => {
     User.findById("600c6143f8ce18315c9cb694")
