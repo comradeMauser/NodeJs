@@ -12,8 +12,15 @@ const adminRoutes = require('./routes/admin.js')
 const shopRoutes = require('./routes/shop.js')
 const authRoutes = require('./routes/auth.js')
 const session = require('express-session')
+const MongoDbStore = require('connect-mongodb-session')(session)
+
+const MONGODB_URI = 'mongodb+srv://JohnDoe:nIiMOHbOi16uVwou@nodecluster.qflh4.mongodb.net/shop'
 
 const app = express()
+const store = new MongoDbStore({
+    uri: MONGODB_URI,
+    collection: 'sessions'
+})
 
 app.set("view engine", "ejs")
 app.set("views", "views")
@@ -24,7 +31,8 @@ app.use(
     session({
         secret: 'unimaginably long string',
         resave: false,
-        saveUninitialized: false
+        saveUninitialized: false,
+        store
     })
 )
 
@@ -43,7 +51,7 @@ app.use(authRoutes)
 // 404 case
 app.use(errorController.get404)
 
-mongoose.connect("mongodb+srv://JohnDoe:nIiMOHbOi16uVwou@nodecluster.qflh4.mongodb.net/shop?retryWrites=true&w=majority")
+mongoose.connect(MONGODB_URI)
     .then(r => {
         User.findOne()
             .then(user => {
